@@ -46,8 +46,6 @@ class QuakeDatabase:
     def insertPlayer(self,player_name):
         self.__connect__()
         self.__switch_database__()
-        #self.cursor.execute("INSERT INTO players (name) VALUES ("+player_name+");")
         self.cursor.execute("INSERT INTO players (name) VALUES (\""+player_name+"\");")
-        #self.cursor.execute("DESCRIBE players;")
         self.mydb.commit()
         self.__disconnect__()
