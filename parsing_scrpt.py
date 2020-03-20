@@ -21,8 +21,17 @@ for child in tree.iter():
             'powerup': "powerups",
         }
         f.write(switcher.get(child.tag, "") + "           " +str(child.attrib.values())
-                .replace('[', '').replace(']', '') + "\n")
+                .replace('[', '').replace(']', '')
+                .replace('dict_values(', '').replace(')', '') + "\n")
         #print(child.tag, child.attrib)
 
 f.close()
 
+#
+# with open('parsed_file', 'w+') as f1:
+#     for line in f1.readlines():
+#         for char in line:
+#             if char.isdigit() == true:
+#                 print("this char: " + char + " is digit")
+#
+# f1.close()
