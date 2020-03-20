@@ -18,9 +18,8 @@ class QuakeDatabase:
     def __disconnect__(self):
         self.mydb.close()
 
-    def __usedatabase__(self)
-	self.cursor.execute("USE "+self.database+";")
-
+    def __switch_database__(self):
+        self.cursor.execute("USE " + self.database + ";")
 
     def showDatabase(self):
         self.__connect__()
@@ -29,19 +28,21 @@ class QuakeDatabase:
         for db in result:
             print(db)
         self.__disconnect__()
-
+    
     def showTables(self):
         self.__connect__()
-        self.__usedatabase__()
+        self.__switch_database__()
         self.cursor.execute("SHOW TABLES;")
         result = self.cursor.fetchall()
         for db in result:
             print(db)
         self.__disconnect__()
-
-    def insertPlayer(self,player_id,player_name):
+    
+    def insertPlayer(self,player_name):
         self.__connect__()
-        self.__usedatabase__()
-        self.cursor.execute("INSERT INTO players (id-player, name) \
-                            VALUES ('"+player_name+"')")
+        self.__switch_database__()
+        #self.cursor.execute("INSERT INTO players (name) VALUES ("+player_name+");")
+        self.cursor.execute("INSERT INTO players (name) VALUES (\""+player_name+"\");")
+        #self.cursor.execute("DESCRIBE players;")
+        self.mydb.commit()
         self.__disconnect__()
