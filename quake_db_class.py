@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import mysql.connector
+from mysql.connector import errorcode
 
 class QuakeDatabase:
 
@@ -11,9 +12,13 @@ class QuakeDatabase:
         self.database = database
 
     def __connect__(self):
-        self.mydb = mysql.connector.connect(user=self.username, password=self.password,
-                                       host=self.host, database=self.database)
-        self.cursor = self.mydb.cursor()
+        try:
+           self.mydb = mysql.connector.connect(user=self.username, password=self.password,
+                                          host=self.host, database=self.database)
+           self.cursor = self.mydb.cursor()
+        except mysql.connector.Error as err:
+           print("Something went wrong: {}".format(err))
+           exit(1)
 
     def __disconnect__(self):
         self.mydb.close()
