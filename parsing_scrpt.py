@@ -34,6 +34,9 @@ f.seek(0)
 for line in f.readlines():
     i = 0
     print(len(line))
+    if "matches" in line:
+        line = line.replace("/", "-") # converting date to TIMESTAMP date format
+        print(line)
     for i in range( len(line)):
         print("symbol passed")
         #print(i)
@@ -73,6 +76,7 @@ for line in f.readlines():
                         break
 
         else: f1.write(line[i])
+
 f1.close()
 f.close()
 os.remove("parsed_file")
