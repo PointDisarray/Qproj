@@ -92,3 +92,14 @@ class QuakeDatabase:
             print("Error:", e)
             self.mydb.rollback()
             return "Exception has occured, SELECT query failed"
+
+    def getMatchIDbyDate(self, date):
+        try:
+            query = "SELECT id_match FROM matches WHERE matches.datetime = \'%s\'" % date
+            self.cursor.execute(query)
+            row = self.cursor.fetchone()
+            return row
+        except Error as e:
+            print("Error:", e)
+            self.mydb.rollback()
+            return "Exception has occured, SELECT query failed"
