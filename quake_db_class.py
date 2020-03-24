@@ -47,17 +47,17 @@ class QuakeDatabase:
         result = self.cursor.fetchall()
         for db in result:
             print(db)
-    
+
     def showTables(self):
         self.cursor.execute("SHOW TABLES;")
         result = self.cursor.fetchall()
         for db in result:
             print(db)
-    
+
     def addPlayer(self, player_name):
-        
+
         query = "INSERT INTO players (name) VALUES (\"%s\")" % player_name
-        
+
         try:
            self.cursor.execute(query)
            self.mydb.commit()
@@ -66,10 +66,10 @@ class QuakeDatabase:
         except Error as e:
            print("Error:", e)
            self.mydb.rollback()
-           return False 
+           return False
 
     def addMap(self, match_date, match_map, match_type, match_isTeamGame, match_duration):
-        try: 
+        try:
            query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%d,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
 
            self.cursor.execute(query)
@@ -80,3 +80,15 @@ class QuakeDatabase:
            print("Error:", e)
            self.mydb.rollback()
            return False
+
+    def getUserIDbyName(self, player_name):
+        try:
+            query = "SELECT id_player FROM players WHERE players.name = \'%s\'" % player_name     #  = \'%s\'" % player_name
+            self.cursor.execute(query)
+            # self.mydb.commit()
+            row = self.cursor.fetchone()
+            return row
+        except Error as e:
+            print("Error:", e)
+            self.mydb.rollback()
+            return "Exception has occured, SELECT query failed"
