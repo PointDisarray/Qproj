@@ -3,7 +3,7 @@
 import datetime
 from quake_db_class import *
 
-dbQuake = QuakeDatabase('root', 'y11091998', '127.0.0.1', 'stats')
+dbQuake = QuakeDatabase('eridan', 'forfun', '127.0.0.1', 'stats')
 
 dbQuake.connect()
 dbQuake.switch_database()

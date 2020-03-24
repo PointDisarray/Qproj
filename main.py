@@ -4,7 +4,7 @@ import datetime, sys, os
 from subprocess import check_output as check
 from quake_db_class import *
 
-dbQuake = QuakeDatabase('root', 'forfun', '127.0.0.1', 'stats')
+dbQuake = QuakeDatabase('eridan', 'forfun', '127.0.0.1', 'stats')
 
 dbQuake.connect()
 dbQuake.switch_database()
