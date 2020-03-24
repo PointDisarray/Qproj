@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 import mysql.connector
-from mysql.connector import errorcode
+from mysql.connector import Error
 import os
+import datetime
 
 class QuakeDatabase:
 
@@ -54,17 +55,28 @@ class QuakeDatabase:
             print(db)
     
     def addPlayer(self, player_name):
-        self.cursor.execute("INSERT INTO players (name) VALUES (\""+player_name+"\");")
-        self.mydb.commit()
-        #__dbInfoUpdate__(player_name, self.database)
-        print(player_name.upper()+" has been added to "+self.database.upper()+" database sucesfully")
-        return self.cursor.lastrowid
+        
+        query = "INSERT INTO players (name) VALUES (\"%s\")" % player_name
+        
+        try:
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print(player_name.upper()+" has been added to "+self.database.upper()+" database sucesfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False 
 
-    def addMap(self, matche_date, matche_map, matche_type, matche_isTeamGame, matche_duration):
-        self.cursor.execute("INSERT INTO matches (datetime, map, type, isTeamGame, duration)\
-                             VALUES (\""+matche_date+"\",\""+matche_map+"\",\""+matche_type+"\","+matche_isTeamGame+","+matche_duration+");")
+    def addMap(self, match_date, match_map, match_type, match_isTeamGame, match_duration):
+        
+        query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%d,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
+
+        print(query)
+
+        self.cursor.execute(query)
         self.mydb.commit()
-        return self.cursor.lastrowid        
+        #return self.cursor.lastrowid        
 
     #def insertStats(self, stat_name, stat_value):
     #    self.cursor.execute("INSERT INTO players (
