@@ -80,3 +80,17 @@ class QuakeDatabase:
            print("Error:", e)
            self.mydb.rollback()
            return False
+
+    def addItem(self, item_name, item_pickup, item_player_id, item_match_id):
+        try:
+           query = "INSERT INTO items (name, pickups, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d)" % (item_name, item_pickup, item_player_id, item_match_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
+
