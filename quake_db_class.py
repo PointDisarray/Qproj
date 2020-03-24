@@ -69,16 +69,14 @@ class QuakeDatabase:
            return False 
 
     def addMap(self, match_date, match_map, match_type, match_isTeamGame, match_duration):
-        
-        query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%d,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
+        try: 
+           query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%d,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
 
-        print(query)
-
-        self.cursor.execute(query)
-        self.mydb.commit()
-        #return self.cursor.lastrowid        
-
-    #def insertStats(self, stat_name, stat_value):
-    #    self.cursor.execute("INSERT INTO players (
-    
-    #def insertStats(self, stat_name, stat_value):
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
