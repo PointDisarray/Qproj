@@ -16,7 +16,7 @@ class QuakeDatabase:
     def connect(self):
         try:
            print("Connecting to " + self.database + " database, please wait ...")
-           os.system("sleep 2")
+           os.system("sleep 1")
            self.mydb = mysql.connector.connect(user=self.username, password=self.password,
                                           host=self.host, database=self.database)
            self.cursor = self.mydb.cursor()
@@ -33,8 +33,8 @@ class QuakeDatabase:
 
     def disconnect(self):
         self.mydb.close()
-        print("Disconnect from " + self.database + " ...")
-        os.system("sleep 2")
+        print("Disconnect from " + self.database + " database ...")
+        os.system("sleep 1")
 
     def switch_database(self):
         self.cursor.execute("USE " + self.database + ";")
