@@ -18,6 +18,6 @@ dbQuake.switch_database()
 #game_date='2019-09-03 15:46:21'
 #dbQuake.addMap("2020-01-03 20:42:26","map10","FFA",0,472)
 #print("Map id = "+str(map_id))
-dbQuake.addStats("Test", 4,1,1)
+dbQuake.addUserMatches(1,1,1)
 print("================")
 dbQuake.disconnect()
