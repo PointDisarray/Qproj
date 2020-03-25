@@ -1,4 +1,5 @@
 DROP SCHEMA IF EXISTS `stats` ;
+DROP DATABASE IF EXISTS `stats`;
 
 CREATE SCHEMA IF NOT EXISTS `stats` ;
 USE `stats` ;
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`matches` (
   `datetime` TIMESTAMP NOT NULL,
   `map` VARCHAR(30) NOT NULL,
   `type` VARCHAR(5) NOT NULL,
-  `isTeamGame` BOOLEAN NOT NULL,
+  `isTeamGame` BOOLEAN,
   `duration` DECIMAL(5) NOT NULL,
   PRIMARY KEY (`id_match`));
 
@@ -133,4 +134,4 @@ CREATE TABLE IF NOT EXISTS `stats`.`user_matches` (
     REFERENCES `stats`.`matches` (`id_match`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-    
+
