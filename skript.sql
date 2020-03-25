@@ -20,8 +20,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`matches` (
   `type` VARCHAR(5) NOT NULL,
   `isTeamGame` INT NOT NULL,
   `duration` DECIMAL(5) NOT NULL,
-  PRIMARY KEY (`id_match`),
-  UNIQUE INDEX `map_UNIQUE` (`map` ASC));
+  PRIMARY KEY (`id_match`));
 
 DROP TABLE IF EXISTS `stats`.`stats` ;
 
