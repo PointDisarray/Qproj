@@ -21,19 +21,36 @@ with open(file_name) as file:
         if "matches," in line:
             data = newline.strip().split(",")
             data[2] = data[2][ : 10] + " " + data[2][10 : ]
-            dbQuake.addMap(data[2], data[3], data[4], int(data[1]), int(data[6]))
+            print(data)
+            dbQuake.addMap(data[2], data[3], data[4], data[1], int(data[6]))
             tmp_match_id = dbQuake.getMatchIDbyDate(data[2])[0]
-            print(tmp_match_id)
+            #print(tmp_match_id)
+            print("match inserted")
         if "players," in line:
             data = newline.strip().split(",")
-            print(data)
+            #print(data)
             dbQuake.addPlayer(data[1])
+            print("player inserted")
             tmp_user_id = dbQuake.getUserIDbyName(data[1])[0]
-            print(tmp_user_id)
-            #insert into user_matches function will be here + temp_user_id, temp_match_id will be used
+            #print(tmp_user_id)
+            dbQuake.addUserMatches(tmp_user_id, tmp_match_id)
+            print("player match inserted")
         if "stats," in line:
             data = newline.strip().split(",")
-            #insert into stats function will be here + temp_user_id, temp_match_id will be used
+            # print(data)
+            dbQuake.addStats(data[1], int(data[2]), tmp_user_id, tmp_match_id)
+            print("stat inserted")
+        if "weapons," in line:
+            data = newline.strip().split(",")
+            dbQuake.addWeapons(data[1], int(data[2]), int(data[3]), int(data[4]), tmp_user_id, tmp_match_id)
+            print("weapon stat inserted")
+        if "items," in line:
+            data = newline.strip().split(",")
+            dbQuake.addItem(data[1], int(data[2]), tmp_user_id, tmp_match_id)
+            print("item stat inserted")
+        if "powerups," in line:
+            data = newline.strip().split(",")
+            dbQuake.addPowerUps(data[1], int(data[2]), int(data[3]), tmp_user_id, tmp_match_id)
 
 
 dbQuake.disconnect()
