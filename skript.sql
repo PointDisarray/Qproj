@@ -115,26 +115,15 @@ CREATE TABLE IF NOT EXISTS `stats`.`powerups` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-DROP TABLE IF EXISTS `stats`.`month_year` ;
-
-CREATE TABLE IF NOT EXISTS `stats`.`month_year` (
-  `id_month_year` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `year` VARCHAR(4) NOT NULL,
-  `month` CHAR(2) NOT NULL,
-  `day` CHAR(2) NOT NULL,
-  PRIMARY KEY (`id_month_year`));
-
 DROP TABLE IF EXISTS `stats`.`user_matches` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`user_matches` (
   `id_user_relactions` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `players_id_player` INT UNSIGNED NOT NULL,
   `matches_id_match` INT UNSIGNED NOT NULL,
-  `month_year_id_month_year` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_user_relactions`),
   INDEX `fk_user_matches_players1_idx` (`players_id_player` ASC),
   INDEX `fk_user_matches_matches1_idx` (`matches_id_match` ASC),
-  INDEX `fk_user_matches_month_year1_idx` (`month_year_id_month_year` ASC),
   CONSTRAINT `fk_user_matches_players1`
     FOREIGN KEY (`players_id_player`)
     REFERENCES `stats`.`players` (`id_player`)
@@ -143,11 +132,6 @@ CREATE TABLE IF NOT EXISTS `stats`.`user_matches` (
   CONSTRAINT `fk_user_matches_matches1`
     FOREIGN KEY (`matches_id_match`)
     REFERENCES `stats`.`matches` (`id_match`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_user_matches_month_year1`
-    FOREIGN KEY (`month_year_id_month_year`)
-    REFERENCES `stats`.`month_year` (`id_month_year`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
     
