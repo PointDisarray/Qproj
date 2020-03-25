@@ -6,7 +6,7 @@ USE `stats` ;
 DROP TABLE IF EXISTS `stats`.`players` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`players` (
-  `id_player` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_player` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id_player`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC));
@@ -14,11 +14,11 @@ CREATE TABLE IF NOT EXISTS `stats`.`players` (
 DROP TABLE IF EXISTS `stats`.`matches` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`matches` (
-  `id_match` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_match` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `datetime` TIMESTAMP NOT NULL,
   `map` VARCHAR(30) NOT NULL,
   `type` VARCHAR(5) NOT NULL,
-  `isTeamGame` TINYINT(1) NOT NULL,
+  `isTeamGame` INT NOT NULL,
   `duration` DECIMAL(5) NOT NULL,
   PRIMARY KEY (`id_match`),
   UNIQUE INDEX `map_UNIQUE` (`map` ASC));
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS `stats`.`matches` (
 DROP TABLE IF EXISTS `stats`.`stats` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`stats` (
-  `id_stats` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_stats` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `value` INT(5) NOT NULL,
-  `players_id_player` TINYINT(1) UNSIGNED NOT NULL,
-  `matches_id_match` TINYINT(1) UNSIGNED NOT NULL,
+  `players_id_player` INT UNSIGNED NOT NULL,
+  `matches_id_match` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_stats`, `matches_id_match`),
   INDEX `fk_stats_players1_idx` (`players_id_player` ASC),
   INDEX `fk_stats_matches1_idx` (`matches_id_match` ASC),
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `stats`.`weapons` (
   `hits` INT(4) NOT NULL,
   `shots` INT(4) NOT NULL,
   `kills` INT(3) NOT NULL,
-  `players_id_player` TINYINT(1) UNSIGNED NOT NULL,
-  `matches_id_match` TINYINT(1) UNSIGNED NOT NULL,
+  `players_id_player` INT UNSIGNED NOT NULL,
+  `matches_id_match` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_weapons`, `matches_id_match`),
   INDEX `fk_weapons_players1_idx` (`players_id_player` ASC),
   INDEX `fk_weapons_matches1_idx` (`matches_id_match` ASC),
@@ -73,11 +73,11 @@ CREATE TABLE IF NOT EXISTS `stats`.`weapons` (
 DROP TABLE IF EXISTS `stats`.`items` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`items` (
-  `id_item` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_item` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(10) NOT NULL,
   `pickups` INT(3) NOT NULL,
-  `players_id_player` TINYINT(1) UNSIGNED NOT NULL,
-  `matches_id_match` TINYINT(1) UNSIGNED NOT NULL,
+  `players_id_player` INT UNSIGNED NOT NULL,
+  `matches_id_match` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_item`, `matches_id_match`),
   INDEX `fk_items_players1_idx` (`players_id_player` ASC),
   INDEX `fk_items_matches1_idx` (`matches_id_match` ASC),
@@ -95,12 +95,12 @@ CREATE TABLE IF NOT EXISTS `stats`.`items` (
 DROP TABLE IF EXISTS `stats`.`powerups` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`powerups` (
-  `id_powerups` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_powerups` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(10) NOT NULL,
   `pickups` INT(3) NOT NULL,
   `time` INT(9) NOT NULL,
-  `players_id_player` TINYINT(1) UNSIGNED NOT NULL,
-  `matches_id_match` TINYINT(1) UNSIGNED NOT NULL,
+  `players_id_player` INT UNSIGNED NOT NULL,
+  `matches_id_match` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_powerups`, `matches_id_match`),
   INDEX `fk_powerups_players_idx` (`players_id_player` ASC),
   INDEX `fk_powerups_matches1_idx` (`matches_id_match` ASC),
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`powerups` (
 DROP TABLE IF EXISTS `stats`.`month_year` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`month_year` (
-  `id_month_year` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_month_year` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `year` VARCHAR(4) NOT NULL,
   `month` CHAR(2) NOT NULL,
   `day` CHAR(2) NOT NULL,
@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS `stats`.`month_year` (
 DROP TABLE IF EXISTS `stats`.`user_matches` ;
 
 CREATE TABLE IF NOT EXISTS `stats`.`user_matches` (
-  `id_user_relactions` TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `players_id_player` TINYINT(1) UNSIGNED NOT NULL,
-  `matches_id_match` TINYINT(1) UNSIGNED NOT NULL,
-  `month_year_id_month_year` TINYINT(1) UNSIGNED NOT NULL,
+  `id_user_relactions` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `players_id_player` INT UNSIGNED NOT NULL,
+  `matches_id_match` INT UNSIGNED NOT NULL,
+  `month_year_id_month_year` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_user_relactions`),
   INDEX `fk_user_matches_players1_idx` (`players_id_player` ASC),
   INDEX `fk_user_matches_matches1_idx` (`matches_id_match` ASC),
