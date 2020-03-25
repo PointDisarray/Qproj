@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`stats` (
   `value` INT(5) NOT NULL,
   `players_id_player` INT UNSIGNED NOT NULL,
   `matches_id_match` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_stats`, `matches_id_match`),
+  PRIMARY KEY (`id_stats`),
   INDEX `fk_stats_players1_idx` (`players_id_player` ASC),
   INDEX `fk_stats_matches1_idx` (`matches_id_match` ASC),
   CONSTRAINT `fk_stats_players1`
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`weapons` (
   `kills` INT(3) NOT NULL,
   `players_id_player` INT UNSIGNED NOT NULL,
   `matches_id_match` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_weapons`, `matches_id_match`),
+  PRIMARY KEY (`id_weapons`),
   INDEX `fk_weapons_players1_idx` (`players_id_player` ASC),
   INDEX `fk_weapons_matches1_idx` (`matches_id_match` ASC),
   CONSTRAINT `fk_weapons_players1`
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`items` (
   `pickups` INT(3) NOT NULL,
   `players_id_player` INT UNSIGNED NOT NULL,
   `matches_id_match` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_item`, `matches_id_match`),
+  PRIMARY KEY (`id_item`),
   INDEX `fk_items_players1_idx` (`players_id_player` ASC),
   INDEX `fk_items_matches1_idx` (`matches_id_match` ASC),
   CONSTRAINT `fk_items_players1`
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`powerups` (
   `time` INT(9) NOT NULL,
   `players_id_player` INT UNSIGNED NOT NULL,
   `matches_id_match` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_powerups`, `matches_id_match`),
+  PRIMARY KEY (`id_powerups`),
   INDEX `fk_powerups_players_idx` (`players_id_player` ASC),
   INDEX `fk_powerups_matches1_idx` (`matches_id_match` ASC),
   CONSTRAINT `fk_powerups_players`
