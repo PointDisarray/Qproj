@@ -4,10 +4,11 @@ import sys,os,pdb
 import xml.etree.ElementTree as ET
 
 file_name = str(sys.argv[1])
+print(file_name)
 tree = ET.parse(file_name)
 #root = tree.getroot()
 f = open("parsed_file", 'w+')
-f1 = open("data_from_"+ file_name, "w+")
+f1 = open(file_name, "w+")
 f.write("Entity           Values\n\n")
 ignore_elements = ['weapons', "items", "powerups"]
 global_line = ""
@@ -33,12 +34,9 @@ for child in tree.iter():
 f.seek(0)
 for line in f.readlines():
     i = 0
-    print(len(line))
     if "matches" in line:
         line = line.replace("/", "-") # converting date to TIMESTAMP date format
-        print(line)
     for i in range( len(line)):
-        print("symbol passed")
         #print(i)
         if "\'" == line[i]:
                 j = i-1
@@ -46,32 +44,26 @@ for line in f.readlines():
                 print(k)
                 #check if value in quotes is a number -> delete quote (right side)
                 while k in range(len(line)-1):
-                    print(k)
                     if line[k].isdigit() or line[k] == '-':
-                        print("quote is not written in k")
+                        #print("quote is not written in k")
                         k+=1
-                        print(k)
                     elif line[k] == "\'" or (line[k] == ',' and line[k+1] == ' '):
-                        print("break is made")
+                        #print("break is made"
                         break
                     else:
-                        print(k)
-                        print("write quote in k")
+                        #print("write quote in k")
                         f1.write(line[i])
                         break
                 #check if value in quotes is a number -> delete quote (left side)
                 while j in range(len(line)):
-                    print(j)
                     if line[j].isdigit() or line[j] == '-':
-                        print("quote is not written in j")
+                        #print("quote is not written in j")
                         j-=1
-                        print(j)
                     elif line[j] == "\'" or line[j] == ' ':
-                        print("break is made in j")
+                        #print("break is made in j")
                         break
                     else:
-                        print(j)
-                        print("write quote in j")
+                        #print("write quote in j")
                         f1.write(line[i])
                         break
 
