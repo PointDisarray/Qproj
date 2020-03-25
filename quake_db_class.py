@@ -70,7 +70,7 @@ class QuakeDatabase:
 
     def addMap(self, match_date, match_map, match_type, match_isTeamGame, match_duration):
         try:
-           query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%d,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
+           query = "INSERT INTO matches (datetime,map,type,isTeamGame,duration) VALUES (\"%s\",\"%s\",\"%s\",%s,%d)" % (match_date, match_map,match_type,match_isTeamGame,match_duration)
 
            self.cursor.execute(query)
            self.mydb.commit()
@@ -81,7 +81,7 @@ class QuakeDatabase:
            self.mydb.rollback()
            return False
 
-<<<<<<< HEAD
+
     def getUserIDbyName(self, player_name):
         try:
             query = "SELECT id_player FROM players WHERE players.name = \'%s\'" % player_name     #  = \'%s\'" % player_name
@@ -157,9 +157,9 @@ class QuakeDatabase:
            self.mydb.rollback()
            return False
 
-    def addUserMatches(self, item_player_id, item_match_id, date_id):
+    def addUserMatches(self, item_player_id, item_match_id):
         try:
-           query = "INSERT INTO user_matches (players_id_player, matches_id_match, month_year_id_month_year) VALUES (%d,%d,%d)" % (item_player_id, item_match_id, date_id)
+           query = "INSERT INTO user_matches (players_id_player, matches_id_match) VALUES (%d,%d)" % (item_player_id, item_match_id)
 
            self.cursor.execute(query)
            self.mydb.commit()
