@@ -81,6 +81,7 @@ class QuakeDatabase:
            self.mydb.rollback()
            return False
 
+<<<<<<< HEAD
     def getUserIDbyName(self, player_name):
         try:
             query = "SELECT id_player FROM players WHERE players.name = \'%s\'" % player_name     #  = \'%s\'" % player_name
@@ -103,3 +104,68 @@ class QuakeDatabase:
             print("Error:", e)
             self.mydb.rollback()
             return "Exception has occured, SELECT query failed"
+
+    def addItem(self, item_name, item_pickup, item_player_id, item_match_id):
+        try:
+           query = "INSERT INTO items (name, pickups, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d)" % (item_name, item_pickup, item_player_id, item_match_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
+
+    def addStats(self, stat_name, stat_value, item_player_id, item_match_id):
+        try:
+           query = "INSERT INTO stats (name, value, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d)" % (stat_name, stat_value, item_player_id, item_match_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
+
+    def addWeapons(self, weapon_name, weapon_hit, weapon_shot, weapon_kill, item_player_id, item_match_id):
+        try:
+           query = "INSERT INTO weapons (name, hits, shots, kills, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d,%d,%d)" % (weapon_name, weapon_hit, weapon_shot, weapon_kill, item_player_id, item_match_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
+
+    def addPowerUps(self, power_name, power_pick, power_time, item_player_id, item_match_id):
+        try:
+           query = "INSERT INTO powerups (name, pickups, time, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d,%d)" % (power_name, power_pick, power_time, item_player_id, item_match_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
+
+    def addUserMatches(self, item_player_id, item_match_id, date_id):
+        try:
+           query = "INSERT INTO user_matches (players_id_player, matches_id_match, month_year_id_month_year) VALUES (%d,%d,%d)" % (item_player_id, item_match_id, date_id)
+
+           self.cursor.execute(query)
+           self.mydb.commit()
+           print("Record has been added successfully")
+           return True
+        except Error as e:
+           print("Error:", e)
+           self.mydb.rollback()
+           return False
