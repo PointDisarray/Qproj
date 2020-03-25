@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `stats`.`matches` (
   `datetime` TIMESTAMP NOT NULL,
   `map` VARCHAR(30) NOT NULL,
   `type` VARCHAR(5) NOT NULL,
-  `isTeamGame` BOOLEAN,
+  `isTeamGame` BOOLEAN NOT NULL,
   `duration` DECIMAL(5) NOT NULL,
   PRIMARY KEY (`id_match`));
 
