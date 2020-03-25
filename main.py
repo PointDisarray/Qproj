@@ -12,9 +12,8 @@ dbQuake.switch_database()
 tmp_match_id = 0
 tmp_user_id = 0
 data = []
-current_file_name = "data_from_15_53_50.xml"
-parser_path = "/home/burnley/exercises/quake/Quake_Project/parsing_scrpt.py"
-root_dir = "/home/burnley/exercises/quake/stats"
+parser_path = str(argv[1])
+root_dir = str(argv[2])
 cur_file_path = ''
 
 def string_handler(file_name):
@@ -58,6 +57,7 @@ def string_handler(file_name):
 
 
 def recursive_insert(rootdir):
+    subprocess.call(['tar', '-zcvf', root_dir+"_backup.tar.gz", rootdir])
     print("inside rec func")
     for path, dirs, files in os.walk(rootdir):
         for filename in files:
@@ -67,10 +67,9 @@ def recursive_insert(rootdir):
             if re.search('^[0-2][0-9]_[0-5][0-9]_[0-5][0-9]\.xml$',filename):
                 print("inside if")
                 filename_string = path+"/"+filename
-                subprocess.call([parser_path, filename_string], cwd = '/home/burnley/shit')
-
-                string_handler(filename_string)
-                #os.remove(filename_string)
+                subprocess.call([parser_path, filename_string])
+                string_handler(filename_string+".parsed")
+                os.remove(filename_string+".parsed")
                 os.rename(filename_string, path+"/"+"_INSERTED_"+filename)
 
 

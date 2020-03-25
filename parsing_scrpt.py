@@ -8,7 +8,7 @@ print(file_name)
 tree = ET.parse(file_name)
 #root = tree.getroot()
 f = open("parsed_file", 'w+')
-f1 = open(file_name, "w+")
+f1 = open(file_name+".parsed", "w+")
 f.write("Entity           Values\n\n")
 ignore_elements = ['weapons', "items", "powerups"]
 global_line = ""
@@ -41,7 +41,7 @@ for line in f.readlines():
         if "\'" == line[i]:
                 j = i-1
                 k = i+1
-                print(k)
+                #print(k)
                 #check if value in quotes is a number -> delete quote (right side)
                 while k in range(len(line)-1):
                     if line[k].isdigit() or line[k] == '-':
