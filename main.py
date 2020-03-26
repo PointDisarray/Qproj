@@ -73,7 +73,10 @@ def string_handler(file_name):
 
 
 def recursive_insert(rootdir):
-    subprocess.call(['tar', '-zcvf', root_dir+"_backup.tar.gz", rootdir])
+    print(os.path.exists(rootdir+"_backup.tar.gz"))
+    if not os.path.exists(rootdir+"_backup.tar.gz"):
+        print("creating tar")
+        subprocess.call(['tar', '-zcvf', root_dir + "_backup.tar.gz", rootdir])
     print("inside rec func")
     for path, dirs, files in os.walk(rootdir):
         for filename in files:
