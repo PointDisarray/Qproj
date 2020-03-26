@@ -12,7 +12,7 @@ This project consist of three parts.
 
 Tables
 ```
- Table 'players' stored:
+ Table 'players' stores:
     - id_player
     - name
 
@@ -70,8 +70,8 @@ Tables
 ```
  Table players is main table, has relations one to many with every table in schema.
 
- Table players has 4 tables ('powerups', 'weapons', 'items', 'stats') 
- which stores specified information about players. Those tables are connected with 'players' table many to one relations
+ Table players has 4 tables ('powerups', 'weapons', 'items', 'stats') which stores information about players. 
+ Those tables are connected with 'players' table many to one relations
 
  Table 'user_matches' stores informations about which player played in particular match. 
  Table has two many to one realtions between 'players' table and 'matches' table.
