@@ -1,7 +1,0 @@
-
-This script transforms xml file into file with ENTITY and VALUES columns. 
-That should help with inserting data into db.
-
-to use script just add xml file as the first parameter to the script.
-
-GL
