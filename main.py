@@ -9,12 +9,29 @@ dbQuake = QuakeDatabase('eridan', 'forfun', '127.0.0.1', 'stats')
 dbQuake.connect()
 dbQuake.switch_database()
 
+
 tmp_match_id = 0
 tmp_user_id = 0
 data = []
-parser_path = str(argv[1])
-root_dir = str(argv[2])
-cur_file_path = ''
+parser_path = ""
+root_dir = ""
+
+def wrong_arguments_error():
+    print("Provide absolute path to directory you want to walkthrough as the first argument")
+    print("Provide absolute path to the parsing file as the second argument")
+
+
+if len(sys.argv) == 3:
+    if os.path.isdir(sys.argv[1]) and os.path.isfile(sys.argv[2]):
+        root_dir = str(sys.argv[1])
+        parser_path = str(sys.argv[2])
+    else:
+        wrong_arguments_error()
+        sys.exit()
+else:
+    print("Script requires 2 arguments")
+    wrong_arguments_error()
+    sys.exit()
 
 def string_handler(file_name):
     with open(file_name) as file:
@@ -30,11 +47,10 @@ def string_handler(file_name):
                 print("match inserted")
             if "players," in line:
                 data = newline.strip().split(",")
-                #print(data)
-                dbQuake.addPlayer(data[1])
-                print("player inserted")
+                if not dbQuake.getUserIDbyName(data[1]):
+                    dbQuake.addPlayer(data[1])
+                    print("player inserted")
                 tmp_user_id = dbQuake.getUserIDbyName(data[1])[0]
-                #print(tmp_user_id)
                 dbQuake.addUserMatches(tmp_user_id, tmp_match_id)
                 print("player match inserted")
             if "stats," in line:
@@ -63,9 +79,9 @@ def recursive_insert(rootdir):
         for filename in files:
             # cur_file_path = os.path.abspath(filename)
             # print(cur_file_path)
-            print("inside file for")
+            # print("inside file for")
             if re.search('^[0-2][0-9]_[0-5][0-9]_[0-5][0-9]\.xml$',filename):
-                print("inside if")
+                # print("inside if")
                 filename_string = path+"/"+filename
                 subprocess.call([parser_path, filename_string])
                 string_handler(filename_string+".parsed")
