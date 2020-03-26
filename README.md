@@ -84,11 +84,112 @@ Tables
 
 **Parsing data**
 
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+This part has two tasks. First task is to create parser that will transform .xml file into simple data file.
+Second task is to extract data from the data file and insert that data into specific methods of database
+class. 
+
+*parsing_scrpt.py - is a parsing script of this project*
+
+This script can take only one argument - filename of the file you want to parse. Script can handle both 
+absolute path and relative path of the file. So correct execution of the script looks like this:
+
+```./parsing_scrpt.py text.xml```    or    ```./parsing_scrpt.py /home/burnley/stats/text.xml```
+
+As you can see in the code example down below, script uses xml.etree python module to iterate through each element in the .xml file. After that script 
+will ignore elements mentioned in 'ignore_elements' list. The next step is to modify element string and 
+write it into a new-created file line by line.
+
+```python
+for child in tree.iter():
+    if child.tag not in ignore_elements:
+        switcher = {
+            'match': "matches,",
+            'player': "players,",
+            'stat': "stats,",
+            'weapon': "weapons,",
+            'item': "items,",
+            'powerup': "powerups,",
+        }
+        f.write(switcher.get(child.tag, "") + "           " +str(child.attrib.values())
+                .replace('[', '').replace(']', '')
+                .replace('dict_values(', '').replace(')', '') + "\n")
 ```
+After that script removes all quotes from the elements with numeric values. Uses ```file.seek(0)``` function
+in order to put pointer back at the start of the file. This allows to start the process of removing specific
+quotes in each line. Once all lines are verified or modified, script closes all files. Now you have a parsed
+file you can use in the next steps.
+
+Second task is based on extracting data from parsed file. So the main.py script was created.
+
+*main.py - is a script that will use all insert methods in database class.*
+
+This script takes two arguments:
+
+- absolute path to the directory with .xml files (f.e.: /home/burnley/stats)
+- absolute path to the parser script (f.e.: /home/burnley/project/parsing_scrpt.py)
+
+!!!This script will not work with relative paths!!!
+
+Correct usage of the main.py script looks as follows:
+
+```./main.py /home/burnley/stats /home/burnley/project/parsing_scrpt.py```
+
+You should change database credentials in main.py: 
+
+```dbQuake = QuakeDatabase('eridan', 'forfun', '127.0.0.1', 'stats')```
+
+After execution script will use recursive_insert function which will recursively visit each directory in 
+order to find .xml files that match special regexp. Script will perform this action only in the ```rootdir``` which
+you have passed as the first argument. After the file match script executes parsing_scrpt.py with matched 
+filename as an argument.
+
+```python
+def recursive_insert(rootdir):
+    subprocess.call(['tar', '-zcvf', root_dir+"_backup.tar.gz", rootdir])
+    print("inside rec func")
+    for path, dirs, files in os.walk(rootdir):
+        for filename in files:
+            if re.search('^[0-2][0-9]_[0-5][0-9]_[0-5][0-9]\.xml$',filename):
+                # print("inside if")
+                filename_string = path+"/"+filename
+                subprocess.call([parser_path, filename_string])
+                string_handler(filename_string+".parsed")
+                os.remove(filename_string+".parsed")
+                os.rename(filename_string, path+"/"+"_INSERTED_"+filename)
+```
+The next step is to use another main.py function - string_handler(filename). That function will read all
+lines of the parsed file one by one and will look for matches in if statements. All if statements look for
+a certain pattern in line. When the match is found database functions will use that line as the parameter
+for insert, select etc. The part of string_handler() function is presented below:
+
+```python
+def string_handler(file_name):
+    with open(file_name) as file:
+        for line in file.readlines():
+            newline = line.replace('\'', '').replace(' ', '')
+            if "matches," in line:
+                data = newline.strip().split(",")
+                data[2] = data[2][ : 10] + " " + data[2][10 : ]
+                print(data)
+                dbQuake.addMap(data[2], data[3], data[4], data[5], int(data[6]))
+                tmp_match_id = dbQuake.getMatchIDbyDate(data[2])[0]
+                #print(tmp_match_id)
+                print("match inserted")
+            if "players," in line:
+                data = newline.strip().split(",")
+                if not dbQuake.getUserIDbyName(data[1]):
+                    dbQuake.addPlayer(data[1])
+                    print("player inserted")
+                tmp_user_id = dbQuake.getUserIDbyName(data[1])[0]
+                dbQuake.addUserMatches(tmp_user_id, tmp_match_id)
+                print("player match inserted")
+```
+
+After that parsed file is removed and original .xml file gets renamed with '_INSERTED_' prefix addition. 
+So the next time script will be executed it will ignore file with that prefix, since all the records of 
+that file have been already inserted. Sometimes you will need to insert all that data into another database.
+Script main.py creates tar with rootdir backup. All files inside will not have 'INSERTED' prefix, so can be
+added to another database. 
 
 **Insert data to database**
 
