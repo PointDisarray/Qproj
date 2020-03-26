@@ -200,7 +200,7 @@ added to another database.
 Python class quake_db_class include all methods to work with database.
 
 Method to store data about database connection.
-```
+```python
  def __init__(self, username, password, host, database):
     self.username = username
     self.password = password
@@ -209,7 +209,7 @@ Method to store data about database connection.
 ```
 
 Method to connect to the database
-```
+```python
  def connect(self):
     try:
        print("Connecting to " + self.database + " database, please wait ...")
@@ -231,7 +231,7 @@ Method to connect to the database
 ```
 
 Method to disconnect from database
-```
+```python
  def disconnect(self):
      self.mydb.close()
      print("Disconnect from " + self.database + " database ...")
@@ -239,13 +239,13 @@ Method to disconnect from database
 ```
 
 Method to switch database
-```
+```python
  def switch_database(self):
      self.cursor.execute("USE " + self.database + ";")
 ```
 
 Method to show databases
-```
+```python
  def showDatabase(self):
      self.cursor.execute("SHOW DATABASES;")
      result = self.cursor.fetchall()
@@ -254,7 +254,7 @@ Method to show databases
 ```
 
 Method to show tables
-```
+```python
  def showDatabase(self):
      self.cursor.execute("SHOW DATABASES;")
      result = self.cursor.fetchall()
@@ -263,7 +263,7 @@ Method to show tables
 ```
 
 Method to add player
-```
+```python
  def addPlayer(self, player_name):
 
      query = "INSERT INTO players (name) VALUES (\"%s\")" % player_name
@@ -280,7 +280,7 @@ Method to add player
 ```
 
 Method to add map
-```
+```python
  # add values to matches table
  def addMap(self, match_date, match_map, match_type, match_isTeamGame, match_duration):
      try:
@@ -297,7 +297,7 @@ Method to add map
 ```
 
 Method to show selected player
-```
+```python
  def getUserIDbyName(self, player_name):
      try:
          query = "SELECT id_player FROM players WHERE players.name = \'%s\'" % player_name     #  = \'%s\'" % player_name
@@ -312,7 +312,7 @@ Method to show selected player
 ```
 
 Method to show which player played in particular time
-```
+```python
  def getMatchIDbyDate(self, date):
      try:
          query = "SELECT id_match FROM matches WHERE matches.datetime = \'%s\'" % date
@@ -328,7 +328,7 @@ Method to show which player played in particular time
 ```
 
 Method to add items
-```
+```python
  def addItem(self, item_name, item_pickup, item_player_id, item_match_id):
      try:
         query = "INSERT INTO items (name, pickups, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d)" % (item_name, item_pickup, item_player_id, item_match_id)
@@ -344,7 +344,7 @@ Method to add items
 ```
 
 Method to add player stats
-```
+```python
  def addStats(self, stat_name, stat_value, item_player_id, item_match_id):
      try:
         query = "INSERT INTO stats (name, value, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d)" % (stat_name, stat_value, item_player_id, item_match_id)
@@ -360,7 +360,7 @@ Method to add player stats
 ```
 
 Method to add weapons
-```
+```python
  def addWeapons(self, weapon_name, weapon_hit, weapon_shot, weapon_kill, item_player_id, item_match_id):
      try:
         query = "INSERT INTO weapons (name, hits, shots, kills, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d,%d,%d)" % (weapon_name, weapon_hit, weapon_shot, weapon_kill, item_player_id, item_match_id)
@@ -376,7 +376,7 @@ Method to add weapons
 ```
 
 Method to add powerup player
-```
+```python
  def addPowerUps(self, power_name, power_pick, power_time, item_player_id, item_match_id):
      try:
         query = "INSERT INTO powerups (name, pickups, time, players_id_player, matches_id_match) VALUES (\"%s\",%d,%d,%d,%d)" % (power_name, power_pick, power_time, item_player_id, item_match_id)
@@ -392,7 +392,7 @@ Method to add powerup player
 ```
 
 Method to insert player_id and matches_id into one table
-```
+```python
 def addUserMatches(self, item_player_id, item_match_id):
     try:
        query = "INSERT INTO user_matches (players_id_player, matches_id_match) VALUES (%d,%d)" % (item_player_id, item_match_id)
